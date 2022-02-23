@@ -17,6 +17,10 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 logger.addHandler(handler)
 
+model_path = "/app/app/models/pipeline.dill"
+with open(model_path, 'rb') as f:
+	pipeline = dill.load(f)
+
 
 @app.route("/", methods=["GET"])
 def general():
@@ -68,10 +72,6 @@ def predict():
 # then start the server
 if __name__ == "__main__":
 	# reading model
-	model_path = "./models/logreg_pipeline.dill"
-	with open(model_path, 'rb') as f:
-		pipeline = dill.load(f)
-
 	print("* Loading the model and Flask starting server...\nplease wait until server has fully started")
 	port = int(os.environ.get('PORT', 8180))
 	app.run(host='0.0.0.0', debug=True, port=port)
